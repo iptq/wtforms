@@ -4,11 +4,6 @@ use forms::Form;
 
 pub struct Field<T> {
     inner: T,
-    opts: FieldOpts,
-}
-
-pub struct FieldOpts {
-    name: Option<String>,
 }
 
 pub trait FieldExt {

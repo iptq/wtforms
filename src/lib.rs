@@ -8,8 +8,5 @@ mod fields;
 mod forms;
 
 pub use wtforms_derive::*;
-
-pub mod prelude {
-    pub use super::fields::{Field, FieldExt};
-    pub use super::forms::Form;
-}
+pub use fields::*;
+pub use forms::*;

@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate wtforms;
 
-use wtforms::prelude::*;
+use wtforms::*;
 
 #[test]
 fn derive_basic() {
@@ -18,7 +18,7 @@ fn derive_with_attribute() {
     #[allow(dead_code)]
     #[derive(Form)]
     struct LoginForm {
-        #[field(name = "username")]
+        #[field(name = "username", autofocus)]
         username: Field<String>,
         #[field(ty = "password")]
         password: Field<String>,

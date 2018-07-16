@@ -2,16 +2,37 @@ use syn;
 
 #[derive(Debug)]
 pub struct FieldOpts {
+    name: Option<String>,
+    ty: Option<String>,
+    id: Option<String>,
+
     /// The list of attributes for the HTML element.
-    attrs: Vec<(String, String)>,
+    extras: Vec<(String, Option<String>)>,
 }
 
 impl FieldOpts {
     pub fn new() -> Self {
-        FieldOpts { attrs: Vec::new() }
+        FieldOpts {
+            name: None,
+            ty: None,
+            id: None,
+            extras: Vec::new(),
+        }
+    }
+    fn set_field(&mut self, (key, value): (String,Option<String>)) {
+        match &key[..] {
+            "name" => self.name = value,
+            "ty" => self.ty = value,
+            "id" => self.id = value,
+            _ => self.extras.push((key, value)),
+        }
     }
     pub fn push_attribute(&mut self, attr: &syn::NestedMeta) {
         match attr {
+            &syn::NestedMeta::Meta(syn::Meta::Word(ref ident)) => {
+                let key = quote!(#ident).to_string();
+                self.set_field((key, None));
+            }
             &syn::NestedMeta::Meta(syn::Meta::NameValue(syn::MetaNameValue {
                 ident: ref key_wrap,
                 lit: syn::Lit::Str(ref value_wrap),
@@ -19,7 +40,7 @@ impl FieldOpts {
             })) => {
                 let key = key_wrap.to_string();
                 let value = value_wrap.value();
-                self.attrs.push((key, value));
+                self.set_field((key, Some(value)));
             }
             other => panic!("unsupported syntax: {}", quote!(#other).to_string()),
         }
