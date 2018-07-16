@@ -7,8 +7,11 @@ documentation = "https://docs.rs/wtforms-derive"
 repository = "https://git.mzhang.me/michael/wtforms"
 license = "MIT"
 
+[lib]
+proc-macro = true
+
 [dependencies]
-syn = "0.14"
+syn = { version = "0.14", features = ["extra-traits"] }
 quote = "0.6"
 proc-macro2 = "0.4"
 
