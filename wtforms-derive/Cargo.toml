@@ -1,14 +1,14 @@
 [package]
-name = "wtforms"
+name = "wtforms-derive"
 version = "0.0.0"
 authors = ["michael <localhost>"]
 description = "A library for form validation and rendering, based on Python WTForms."
-documentation = "https://docs.rs/wtforms"
+documentation = "https://docs.rs/wtforms-derive"
 repository = "https://git.mzhang.me/michael/wtforms"
 license = "MIT"
 
-[workspace]
-members = [ "wtforms-derive" ]
-
 [dependencies]
-wtforms-derive = { path = "wtforms-derive" }
+syn = "0.14"
+quote = "0.6"
+proc-macro2 = "0.4"
+
