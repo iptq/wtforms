@@ -12,4 +12,4 @@ members = [ "wtforms-derive" ]
 
 [dependencies]
 failure = "0.1.1"
-wtforms-derive = { path = "wtforms-derive" }
+wtforms-derive = { path = "wtforms-derive", version = "0.0" }
