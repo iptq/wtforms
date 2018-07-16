@@ -1,6 +1,6 @@
 [package]
 name = "wtforms"
-version = "0.0.0"
+version = "0.0.1"
 authors = ["michael <localhost>"]
 description = "A library for form validation and rendering, based on Python WTForms."
 documentation = "https://docs.rs/wtforms"
