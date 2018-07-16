@@ -1,3 +1,1 @@
-pub trait Form {
-}
-
+pub trait Form {}

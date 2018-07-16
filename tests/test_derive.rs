@@ -5,6 +5,7 @@ use wtforms::prelude::*;
 
 #[test]
 fn derive_basic() {
+    #[allow(dead_code)]
     #[derive(Form)]
     struct LoginForm {
         username: Field<String>,
@@ -14,11 +15,12 @@ fn derive_basic() {
 
 #[test]
 fn derive_with_attribute() {
+    #[allow(dead_code)]
     #[derive(Form)]
     struct LoginForm {
-        #[form(name = "username")]
+        #[field(name = "username")]
         username: Field<String>,
-        #[form(ty = "password")]
+        #[field(ty = "password")]
         password: Field<String>,
     }
 }

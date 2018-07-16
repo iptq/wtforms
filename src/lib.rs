@@ -4,13 +4,12 @@ extern crate failure;
 #[macro_use]
 extern crate wtforms_derive;
 
-mod forms;
 mod fields;
+mod forms;
 
 pub use wtforms_derive::*;
 
 pub mod prelude {
-    pub use super::forms::Form;
     pub use super::fields::{Field, FieldExt};
+    pub use super::forms::Form;
 }
-
