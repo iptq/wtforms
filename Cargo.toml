@@ -4,7 +4,7 @@ version = "0.0.0"
 authors = ["michael <localhost>"]
 description = "A library for form validation and rendering, based on Python WTForms."
 documentation = "https://docs.rs/wtforms"
-repository = ""
+repository = "https://git.mzhang.me/michael/wtforms"
 license = "MIT"
 
 [dependencies]
