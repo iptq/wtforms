@@ -19,7 +19,7 @@ impl FieldOpts {
             extras: Vec::new(),
         }
     }
-    fn set_field(&mut self, (key, value): (String,Option<String>)) {
+    fn set_field(&mut self, (key, value): (String, Option<String>)) {
         match &key[..] {
             "name" => self.name = value,
             "ty" => self.ty = value,
@@ -45,7 +45,8 @@ impl FieldOpts {
             other => panic!("unsupported syntax: {}", quote!(#other).to_string()),
         }
     }
-    pub fn push_field(&mut self, field: &syn::Field) {
+    pub fn from(field: &syn::Field) -> FieldOpts {
+        let mut opts = FieldOpts::new();
         for attr in field
             .attrs
             .iter()
@@ -67,5 +68,6 @@ impl FieldOpts {
             }) {
             self.push_attribute(&attr);
         }
+        opts
     }
 }
