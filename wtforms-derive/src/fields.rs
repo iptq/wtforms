@@ -19,7 +19,7 @@ impl FieldOpts {
             extras: Vec::new(),
         }
     }
-    fn set_field(&mut self, (key, value): (String,Option<String>)) {
+    fn set_field(&mut self, (key, value): (String, Option<String>)) {
         match &key[..] {
             "name" => self.name = value,
             "ty" => self.ty = value,
