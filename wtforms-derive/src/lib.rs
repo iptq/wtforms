@@ -23,7 +23,7 @@ fn impl_form(input: &syn::DeriveInput) -> TokenStream {
     if let syn::Data::Struct(syn::DataStruct { ref fields, .. }) = input.data {
         let mut opts = FieldOpts::new();
         for field in fields {
-            opts.push_field(field);
+            FieldOpts::from(field);
         }
         println!("{:?}", opts);
         quote!{}
