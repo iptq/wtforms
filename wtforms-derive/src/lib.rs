@@ -22,11 +22,13 @@ pub fn form_derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 fn impl_form(input: &syn::DeriveInput) -> TokenStream {
     if let syn::Data::Struct(syn::DataStruct { ref fields, .. }) = input.data {
         let mut opts = FieldOpts::new();
+        let mut stream = TokenStream::new();
         for field in fields {
-            FieldOpts::from(field);
+            let opt = FieldOpts::from(field);
+            stream.extend(&opt.tokens());
         }
         println!("{:?}", opts);
-        quote!{}
+        quote!(#stream)
     } else {
         panic!("#[derive(Form)] should only be used with structs");
     }

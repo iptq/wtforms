@@ -13,3 +13,9 @@ pub trait FieldExt {
         Ok(())
     }
 }
+
+impl<T> Field<T> {
+    pub fn from(inner: T) -> Self {
+        Field { inner }
+    }
+}
