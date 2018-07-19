@@ -1,7 +1,7 @@
 use syn;
 
 #[derive(Debug)]
-pub struct FieldOpts {
+pub(crate) struct FieldOpts {
     name: Option<String>,
     ty: Option<String>,
     id: Option<String>,
@@ -27,7 +27,7 @@ impl FieldOpts {
             _ => self.extras.push((key, value)),
         }
     }
-    pub fn push_attribute(&mut self, attr: &syn::NestedMeta) {
+    fn push_attribute(&mut self, attr: &syn::NestedMeta) {
         match attr {
             &syn::NestedMeta::Meta(syn::Meta::Word(ref ident)) => {
                 let key = quote!(#ident).to_string();
@@ -44,6 +44,8 @@ impl FieldOpts {
             }
             other => panic!("unsupported syntax: {}", quote!(#other).to_string()),
         }
+    }
+    pub fn tokens(&self) -> TokenStream {
     }
     pub fn from(field: &syn::Field) -> FieldOpts {
         let mut opts = FieldOpts::new();
@@ -66,7 +68,7 @@ impl FieldOpts {
                     quote!(#tokens).to_string()
                 ),
             }) {
-            self.push_attribute(&attr);
+            opts.push_attribute(&attr);
         }
         opts
     }
