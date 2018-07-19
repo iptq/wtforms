@@ -19,3 +19,9 @@ impl<T> Field<T> {
         Field { inner }
     }
 }
+
+impl FieldExt for Field<String> {
+    fn process<'a>(&self, input: &'a str) -> Result<(), Error> {
+        Ok(())
+    }
+}

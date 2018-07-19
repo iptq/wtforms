@@ -1,7 +1,11 @@
+use proc_macro2::TokenStream;
 use syn;
 
 #[derive(Debug)]
-pub(crate) struct FieldOpts {
+pub(crate) struct FieldOpts<'a> {
+    parent: &'a syn::DeriveInput,
+    field: &'a syn::Field,
+
     name: Option<String>,
     ty: Option<String>,
     id: Option<String>,
@@ -10,15 +14,7 @@ pub(crate) struct FieldOpts {
     extras: Vec<(String, Option<String>)>,
 }
 
-impl FieldOpts {
-    pub fn new() -> Self {
-        FieldOpts {
-            name: None,
-            ty: None,
-            id: None,
-            extras: Vec::new(),
-        }
-    }
+impl<'a> FieldOpts<'a> {
     fn set_field(&mut self, (key, value): (String, Option<String>)) {
         match &key[..] {
             "name" => self.name = value,
@@ -46,29 +42,49 @@ impl FieldOpts {
         }
     }
     pub fn tokens(&self) -> TokenStream {
+        let cls = &self.parent.ident;
+        let field_name = &self.field.ident;
+        quote!{}
     }
-    pub fn from(field: &syn::Field) -> FieldOpts {
-        let mut opts = FieldOpts::new();
-        for attr in field
-            .attrs
-            .iter()
-            .filter_map(|attr| {
-                // make sure it's in the form #[field(key = "value")]
-                let path = &attr.path;
-                match quote!(#path).to_string() == "field" {
-                    true => attr.interpret_meta(),
-                    false => None,
+    pub fn from(parent: &'a syn::DeriveInput, field: &'a syn::Field) -> Self {
+        let mut opts = FieldOpts {
+            parent,
+            field,
+            name: None,
+            ty: None,
+            id: None,
+            extras: Vec::new(),
+        };
+        let mut flag = false;
+        if field.attrs.len() == 1 {
+            if let Some(syn::Meta::Word(ident)) = field.attrs[0].interpret_meta() {
+                if quote!(#ident).to_string() == "field" {
+                    flag = true;
                 }
-            })
-            .flat_map(|m| match m {
-                // get rid of the field(..) wrapper
-                syn::Meta::List(l) => l.nested,
-                tokens => panic!(
-                    "expecting list field(..), found {}",
-                    quote!(#tokens).to_string()
-                ),
-            }) {
-            opts.push_attribute(&attr);
+            }
+        }
+        if !flag {
+            for attr in field
+                .attrs
+                .iter()
+                .filter_map(|attr| {
+                    // make sure it's in the form #[field(key = "value")]
+                    let path = &attr.path;
+                    match quote!(#path).to_string() == "field" {
+                        true => attr.interpret_meta(),
+                        false => None,
+                    }
+                })
+                .flat_map(|m| match m {
+                    // get rid of the field(..) wrapper
+                    syn::Meta::List(l) => l.nested,
+                    tokens => panic!(
+                        "expecting #[field(..)] or #[field], found {}",
+                        quote!(#tokens).to_string()
+                    ),
+                }) {
+                opts.push_attribute(&attr);
+            }
         }
         opts
     }
