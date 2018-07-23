@@ -1,7 +1,10 @@
+use proc_macro2::TokenStream;
 use syn;
 
 #[derive(Debug)]
 pub(crate) struct FieldOpts {
+    field: Option<syn::Field>,
+
     name: Option<String>,
     ty: Option<String>,
     id: Option<String>,
@@ -13,6 +16,7 @@ pub(crate) struct FieldOpts {
 impl FieldOpts {
     pub fn new() -> Self {
         FieldOpts {
+            field: None,
             name: None,
             ty: None,
             id: None,
@@ -46,6 +50,8 @@ impl FieldOpts {
         }
     }
     pub fn tokens(&self) -> TokenStream {
+        quote! {
+        }
     }
     pub fn from(field: &syn::Field) -> FieldOpts {
         let mut opts = FieldOpts::new();
