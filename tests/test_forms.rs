@@ -1,5 +1,8 @@
 #[macro_use]
 extern crate wtforms;
+extern crate failure;
+
+use failure::Error;
 
 use wtforms::*;
 
@@ -20,8 +23,8 @@ fn derive_with_attribute() {
     struct LoginForm {
         #[field(name = "username", autofocus)]
         username: Field<String>,
-        #[field(ty = "password")]
-        password: Field<String>,
+        #[field]
+        password: Field<Password>,
     }
 }
 
@@ -34,6 +37,11 @@ fn render() {
         name: Field<String>,
     }
 
-    let form = NameForm { name: Field::from(String::from("green beans")) };
-    assert_eq!(form.render(), r#"<input name="green beans"#);
+    let form = NameForm {
+        name: Field::from(String::from("green beans")),
+    };
+    assert_eq!(
+        &form.render().unwrap(),
+        r#"<form><input name="green beans" /></form>"#
+    );
 }
