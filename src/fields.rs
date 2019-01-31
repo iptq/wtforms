@@ -1,27 +1,7 @@
-use failure::Error;
+pub trait Field {}
 
-use forms::Form;
+#[derive(Serialize, Deserialize)]
+pub struct Email(pub String);
 
-pub struct Field<T> {
-    inner: T,
-}
-
-pub trait FieldExt {
-    fn process<'a>(&self, input: &'a str) -> Result<(), Error>;
-
-    fn validate(&self, form: &Form) -> Result<(), Error> {
-        Ok(())
-    }
-}
-
-impl<T> Field<T> {
-    pub fn from(inner: T) -> Self {
-        Field { inner }
-    }
-}
-
-impl FieldExt for Field<String> {
-    fn process<'a>(&self, input: &'a str) -> Result<(), Error> {
-        Ok(())
-    }
-}
+#[derive(Serialize, Deserialize)]
+pub struct Password(pub String);

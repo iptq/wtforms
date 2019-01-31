@@ -1,16 +1,18 @@
 #[macro_use]
-extern crate failure;
-#[allow(unused_imports)]
-#[macro_use]
-extern crate wtforms_derive;
+extern crate serde_derive;
 
-mod fields;
-mod forms;
-mod render;
-mod types;
+pub mod fields;
+pub mod html;
+pub mod validators;
 
-pub use fields::*;
-pub use forms::*;
-pub use render::*;
-pub use types::*;
-pub use wtforms_derive::*;
+pub use wtforms_derive::Form;
+use serde::{de::DeserializeOwned, Serialize};
+
+pub use crate::fields::Field;
+pub use crate::validators::{ValidationError, Validator};
+
+pub trait Form: Serialize + DeserializeOwned {
+    type Error: ValidationError;
+    fn as_html() -> String;
+    fn validate(&self) -> Result<(), Self::Error>;
+}

@@ -1,15 +1,15 @@
 [package]
 name = "wtforms"
-version = "0.0.1"
-authors = ["michael <localhost>"]
-description = "A library for form validation and rendering, based on Python WTForms."
-documentation = "https://docs.rs/wtforms"
-repository = "https://git.mzhang.me/michael/wtforms"
-license = "MIT"
+version = "0.1.0"
+authors = ["Michael Zhang <iptq@protonmail.com>"]
+edition = "2018"
 
 [workspace]
-members = [ "wtforms-derive" ]
+members = [".", "wtforms_derive"]
 
 [dependencies]
-failure = "0.1.1"
-wtforms-derive = { path = "wtforms-derive", version = "0.0" }
+wtforms_derive = { version = "0.1", path = "wtforms_derive" }
+frunk = "0.2"
+serde = "1.0"
+serde_derive = "1.0"
+serde_urlencoded = "0.5"
