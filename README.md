@@ -1,6 +1,8 @@
 wtforms
 =======
 
+**NOTE** it doesn't work yet
+
 As the name implies, it's heavily inspired by the Python library [wtforms](https://wtforms.readthedocs.io).
 
 Usage
